@@ -1,0 +1,48 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block title %}Instruments index{% endblock %}
+
+{% block dashboard_stats %}
+{% endblock %}
+
+{% block dashboard_body %}
+    <div class='container my-3'>
+        <a href="{{ path('app_instruments_new') }}" class="btn btn-success">Add new instrument</a>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Instrument_condition</th>
+                <th>Description</th>
+                <th>Daily_rental_price</th>
+                <th>Image</th>
+                <th>Is_active</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for instrument in instruments %}
+            <tr>
+                <td>{{ instrument.id }}</td>
+                <td>{{ instrument.name }}</td>
+                <td>{{ instrument.instrumentCondition }}</td>
+                <td>{{ instrument.description }}</td>
+                <td>{{ instrument.dailyRentalPrice }}</td>
+                <td>{{ instrument.image }}</td>
+                <td>{{ instrument.isActive ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_instruments_show', {'id': instrument.id}) }}">show</a>
+                    <a href="{{ path('app_instruments_edit', {'id': instrument.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block nav %}
+    <a class="nav-link"href="{{ path('app_dashboard') }}">Dashboard</a>
+{% endblock %}
+
+{% block body %}
+    {% block dashboard_stats %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-lg-4">
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>TOTAL INSTRUMENTS:</p>
+                        <h5 class="card-title">40</h5>
+                    </div>
+                </div>
+            </div>
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>AVAILABLE INSTRUMENTS:</p>
+                        <h5 class="card-title">24</h5>
+                    </div>
+                </div>
+            </div>
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>TOTAL USERS:</p>
+                        <h5 class="card-title">21</h5>
+                    </div>
+                </div>
+            </div>
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>TOTAL CATEGORIES:</p>
+                        <h5 class="card-title">5</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {{ app.request.pathInfo starts with '/dashboard/instruments' ? 'active' }}" aria-current="page" href="{{ path('app_instruments_index') }}">Instruments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ app.request.pathInfo starts with '/dashboard/categories' ? 'active' }}" href="{{ path('app_categories_index') }}">Categories</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ app.request.pathInfo starts with '/dashboard/user' ? 'active' }}" href="{{ path('app_admin_user') }}">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ app.request.pathInfo starts with '/dashboard/rental' ? 'active' }}" href="{{ path('app_admin_rental_request') }}">Rental Requests</a>
+        </li>
+    </ul>
+    <br>
+
+    {% block dashboard_body %}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block title %}Instruments{% endblock %}
+
+{% block dashboard_body %}
+    <h1>Instruments</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ instrument.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ instrument.name }}</td>
+            </tr>
+            <tr>
+                <th>Instrument_condition</th>
+                <td>{{ instrument.instrumentCondition }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ instrument.description }}</td>
+            </tr>
+            <tr>
+                <th>Daily_rental_price</th>
+                <td>{{ instrument.dailyRentalPrice }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ instrument.image }}</td>
+            </tr>
+            <tr>
+                <th>Is_active</th>
+                <td>{{ instrument.isActive ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_instruments_index') }}">back to list</a>
+
+    <a href="{{ path('app_instruments_edit', {'id': instrument.id}) }}">edit</a>
+
+    {{ include('dashboard/instruments/_delete_form.html.twig') }}
+{% endblock %}

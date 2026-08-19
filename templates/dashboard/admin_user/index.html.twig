@@ -1,0 +1,69 @@
+{% extends 'dashboard/dashboard.html.twig' %}
+
+{% block title %}AdminUserController{% endblock %}
+
+{% block dashboard_stats %}
+{% endblock %}
+
+{% block dashboard_body %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th style="width: 10%;">Image</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><img src="{{ asset('images/users/' ~ user.image) }}" class="img-fluid" alt="{{ asset('images/users/' ~ user.image) }}"></td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.email }}</td>
+                {% if (user.roles[0] == "ROLE_ADMIN") %}
+                    <td class="text text-warning">Admin</td>
+                {% else %}
+                    <td class="text text-info-emphasis">User</td>
+                {% endif %}
+                {% if (user.isBlocked) %}
+                    <td class="text text-danger">Blocked</td>
+                {% else %}
+                    <td class="text text-success">Active</td>
+                {% endif %}
+                <td>
+                <div class="d-flex gap-1">
+                    {% if user.isBlocked %}
+                        <form method="post" action="{{ path('app_admin_user_toggle_block', {id: user.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('toggle_block_' ~ user.id) }}">
+                            <button type="submit" class="btn btn-success btn-sm">Unblock</button>
+                        </form>
+                    {% else %}
+                        {% if "ROLE_ADMIN" in user.roles %}
+                            <button type="button" class="btn btn-secondary btn-sm" disabled title="Admins cannot be blocked">Block</button>
+                        {% else %}
+                            <form method="post" action="{{ path('app_admin_user_toggle_block', {id: user.id}) }}" onsubmit="return confirm('Are you sure you want to block this user?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('toggle_block_' ~ user.id) }}">
+                                <button type="submit" class="btn btn-danger btn-sm">Block</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No users found...</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
