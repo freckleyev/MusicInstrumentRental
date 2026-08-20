@@ -1,22 +1,37 @@
 <?php
 
-namespace App\Controller; 
+namespace App\Controller;
 
+use App\Repository\CategoriesRepository;
 use App\Repository\InstrumentsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class PublicController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/', name: 'app_public')]
     public function index(
-        InstrumentsRepository $instrumentsRepository
+        Request $request,
+        InstrumentsRepository $instrumentsRepository,
+        CategoriesRepository $categoriesRepository
     ): Response {
-        $instruments = $instrumentsRepository->findAll();
+        $search = $request->query->get('search');
+        $categoryId = $request->query->get('category');
 
-        return $this->render('home/index.html.twig', [
+        $instruments = $instrumentsRepository->findForGuest(
+            $search,
+            $categoryId
+        );
+
+        $categories = $categoriesRepository->findAll();
+
+        return $this->render('public/index.html.twig', [
             'instruments' => $instruments,
+            'categories' => $categories,
+            'search' => $search,
+            'selectedCategory' => $categoryId,
         ]);
     }
 }
