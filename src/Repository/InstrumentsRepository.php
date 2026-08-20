@@ -16,28 +16,41 @@ class InstrumentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Instruments::class);
     }
 
-    //    /**
-    //     * @return Instruments[] Returns an array of Instruments objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('i.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Find active instruments for the guest homepage.
+     *
+     * @return Instruments[]
+     */
+    public function findForGuest(
+        ?string $search,
+        ?string $categoryId
+    ): array {
+        $queryBuilder = $this->createQueryBuilder('i')
+            ->leftJoin('i.category', 'c')
+            ->addSelect('c')
+            ->andWhere('i.is_active = :active')
+            ->setParameter('active', true)
+            ->orderBy('i.name', 'ASC');
 
-    //    public function findOneBySomeField($value): ?Instruments
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        // Search by instrument name or category name
+        if ($search) {
+            $queryBuilder
+                ->andWhere(
+                    'LOWER(i.name) LIKE LOWER(:search)
+                    OR LOWER(c.name) LIKE LOWER(:search)'
+                )
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        // Filter by category
+        if ($categoryId) {
+            $queryBuilder
+                ->andWhere('c.id = :category')
+                ->setParameter('category', $categoryId);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -4,31 +4,128 @@
         <meta charset="UTF-8">
         <title>{% block title %}Music Instruments Rental{% endblock %}</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  
+
 
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Music Instruments</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    {% set current_route = app.request.attributes.get('_route') %}
-                    <div class="navbar-nav">
-                        <a class="nav-link"href="#">Instruments</a>
-                        {% block nav %}{% endblock %}
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
 
-        <div class="container my-5">
-            {% block body %}{% endblock %}
-        </div>
+            <div class="container">
+
+                <a
+                class="navbar-brand"
+                href="{{ path('app_public') }}"
+                >
+                Music Instrument Rental
+            </a>
+
+            <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+        class="collapse navbar-collapse"
+        id="navbarContent"
+        >
+
+        {# Navigation links #}
+        <ul class="navbar-nav me-auto">
+
+            {# Visible to everyone #}
+            <li class="nav-item">
+                <a
+                class="nav-link"
+                href="{{ path('app_public') }}"
+                >
+                Instruments
+            </a>
+        </li>
+
+        {# Visible to logged-in users #}
+        {% if is_granted('ROLE_USER') %}
+
+            <li class="nav-item">
+                <a
+                class="nav-link"
+                href="{{ path('app_my_rentals') }}"
+                >
+                My Rentals
+            </a>
+        </li>
+
+    {% endif %}
 
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    </body>
+    {# Visible only to admins #}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <li class="nav-item">
+            <a
+            class="nav-link"
+            href="{{ path('dashboard_index') }}"
+            >
+            Dashboard
+        </a>
+    </li>
+
+{% endif %}
+
+</ul>
+
+{# Authentication buttons#}
+{# Login / Register / Logout #}
+
+<div class="d-flex gap-2">
+
+    {% if app.user %}
+
+        <a
+        href="{{ path('app_logout') }}"
+        class="btn btn-outline-light"
+        >
+        Logout
+    </a>
+
+{% else %}
+
+    <a
+    href="{{ path('app_login') }}"
+    class="btn btn-outline-light"
+    >
+    Login
+    </a>
+
+    <a
+    href="{{ path('app_register') }}"
+    class="btn btn-primary"
+    >
+    Register
+    </a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="container my-5">
+    {% block body %}
+    {% endblock %}
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
 </html>

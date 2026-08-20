@@ -1,10 +1,165 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PublicController!{% endblock %}
+{% block title %}
+    Music Instrument Rental
+{% endblock %}
 
 {% block body %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-</div>
+    <div class="container">
+
+        <div class="text-center mb-4">
+
+            <h1>
+                Find Your Instrument
+            </h1>
+
+            <p class="text-muted">
+                Browse our available musical instruments.
+            </p>
+
+        </div>
+
+
+        {# SEARCH #}
+
+        <form
+        method="get"
+        action="{{ path('app_public') }}"
+        class="mb-3"
+        >
+
+        <div class="input-group">
+
+            <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search instruments by name or category..."
+            value="{{ search }}"
+            >
+
+            <button
+            type="submit"
+            class="btn btn-primary"
+            >
+            Search
+        </button>
+
+    </div>
+
+    </form>
+
+
+    {# CATEGORY FILTER #}
+
+    <form
+    method="get"
+    action="{{ path('app_public') }}"
+    class="mb-4"
+    >
+
+    <select
+    name="category"
+    class="form-select"
+    onchange="this.form.submit()"
+    >
+
+    <option value="">
+        All Categories
+    </option>
+
+    {% for category in categories %}
+
+        <option
+        value="{{ category.id }}"
+        {% if selectedCategory == category.id %}
+            selected
+        {% endif %}
+        >
+        {{ category.name }}
+        </option>
+
+    {% endfor %}
+
+    </select>
+
+    </form>
+
+
+    {# INSTRUMENT CARDS #}
+
+    <div class="row g-4">
+
+        {% for instrument in instruments %}
+
+            <div class="col-12 col-sm-6 col-lg-3">
+
+                <div class="card h-100 shadow-sm">
+
+                    <div
+                    class="bg-light"
+                    style="height: 180px; overflow: hidden;"
+                    >
+
+                    {% if instrument.image %}
+
+                        <img
+                        src="{{ asset('images/instruments/' ~ instrument.image) }}"
+                        alt="{{ instrument.name }}"
+                        class="w-100 h-100"
+                        style="object-fit: contain;"
+                        >
+
+                    {% else %}
+
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <span class="text-muted">
+                                No image available
+                            </span>
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ instrument.name }}
+                    </h5>
+
+                    <p class="card-text mb-2">
+                        <strong>Category:</strong>
+                        {{ instrument.category.name }}
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Price:</strong>
+                        €{{ instrument.dailyRentalPrice }}/day
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="col-12">
+
+            <div class="alert alert-info">
+                No instruments found.
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+    </div>
+
+    </div>
+
 {% endblock %}
