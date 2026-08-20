@@ -14,24 +14,45 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager
+    ): Response {
+
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+
+        $form = $this->createForm(
+            RegistrationFormType::class,
+            $user
+        );
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $plainPassword */
+
+            // Get the password entered by the user
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            // Hash the password before saving it
+            $hashedPassword = $userPasswordHasher->hashPassword(
+                $user,
+                $plainPassword
+            );
 
+            $user->setPassword($hashedPassword);
+
+            // Give every new account the normal user role
+            $user->setRoles(['ROLE_USER']);
+
+            // New users are not blocked
+            $user->setIsBlocked(false);
+
+            // Save the user in the database
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
-
+            // Send the user to the login page
             return $this->redirectToRoute('app_login');
         }
 
