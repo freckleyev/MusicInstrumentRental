@@ -35,8 +35,9 @@ class RentalRequests
     #[ORM\Column(enumType: RentalRequestStatus::class)]
     private ?RentalRequestStatus $status = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $reviewedBy = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'reviewed_by', referencedColumnName: 'id', nullable: true)]
+    private ?User $reviewedBy = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $rejectionReason = null;
@@ -124,12 +125,12 @@ class RentalRequests
         return $this;
     }
 
-    public function getReviewedBy(): ?int
+    public function getReviewedBy(): ?User
     {
         return $this->reviewedBy;
     }
 
-    public function setReviewedBy(?int $reviewedBy): static
+    public function setReviewedBy(?User $reviewedBy): self
     {
         $this->reviewedBy = $reviewedBy;
 
