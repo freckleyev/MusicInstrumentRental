@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ instrument.name }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container py-5">
+
+        <div class="mb-4">
+
+            <a
+            href="{{ path('app_public') }}"
+            class="btn btn-outline-secondary"
+            >
+            ← Back to Instruments
+        </a>
+
+    </div>
+
+    <div class="row g-5">
+
+        {# IMAGE #}
+        <div class="col-12 col-md-6">
+
+            <div
+            class="bg-light rounded"
+            style="height: 400px; overflow: hidden;"
+            >
+
+            {% if instrument.image %}
+
+                <img
+                src="{{ asset('images/instruments/' ~ instrument.image) }}"
+                alt="{{ instrument.name }}"
+                class="w-100 h-100"
+                style="object-fit: contain;"
+                >
+
+            {% else %}
+
+                <div class="d-flex align-items-center justify-content-center h-100">
+
+                    <span class="text-muted">
+                        No image available
+                    </span>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {# DETAILS #}
+    <div class="col-12 col-md-6">
+
+        <h1 class="mb-3">
+            {{ instrument.name }}
+        </h1>
+
+        <p class="mb-2">
+            <strong>Category:</strong>
+            {{ instrument.category.name }}
+        </p>
+
+        <p class="mb-2">
+            <strong>Daily rental price:</strong>
+            €{{ instrument.dailyRentalPrice }}/day
+        </p>
+
+        <p class="mb-3">
+            <strong>Condition:</strong>
+            {{ instrument.instrumentCondition }}
+        </p>
+
+        <hr>
+
+        <h4>
+            Description
+        </h4>
+
+        <p class="text-muted">
+            {{ instrument.description }}
+        </p>
+
+        <hr>
+
+        {% if instrument.isActive %}
+
+            <div class="alert alert-success">
+                This instrument is currently available.
+            </div>
+
+            <a
+            href="{{ path('app_rental_request_new', {'id': instrument.id}) }}"
+            class="btn btn-primary btn-lg"
+            >
+            Rent This
+        </a>
+
+    {% else %}
+
+        <div class="alert alert-secondary">
+            This instrument is currently unavailable.
+        </div>
+
+        <button
+        type="button"
+        class="btn btn-secondary btn-lg"
+        disabled
+        >
+        Not Available
+        </button>
+
+    {% endif %}
+
+    </div>
+
+    </div>
+
+    </div>
+
+{% endblock %}
