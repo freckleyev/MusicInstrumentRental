@@ -8,8 +8,8 @@
 
     <div class="container">
 
+        {# PAGE TITLE #}
         <div class="text-center mb-4">
-
             <h1>
                 Find Your Instrument
             </h1>
@@ -17,12 +17,10 @@
             <p class="text-muted">
                 Browse our available musical instruments.
             </p>
-
         </div>
 
 
         {# SEARCH #}
-
         <form
         method="get"
         action="{{ path('app_public') }}"
@@ -52,7 +50,6 @@
 
 
     {# CATEGORY FILTER #}
-
     <form
     method="get"
     action="{{ path('app_public') }}"
@@ -88,7 +85,6 @@
 
 
     {# INSTRUMENT CARDS #}
-
     <div class="row g-4">
 
         {% for instrument in instruments %}
@@ -97,6 +93,7 @@
 
                 <div class="card h-100 shadow-sm">
 
+                    {# IMAGE #}
                     <div
                     class="bg-light"
                     style="height: 180px; overflow: hidden;"
@@ -114,9 +111,11 @@
                     {% else %}
 
                         <div class="d-flex align-items-center justify-content-center h-100">
+
                             <span class="text-muted">
                                 No image available
                             </span>
+
                         </div>
 
                     {% endif %}
@@ -124,25 +123,79 @@
                 </div>
 
 
-                <div class="card-body">
+                {# CARD CONTENT #}
+                <div class="card-body d-flex flex-column">
 
                     <h5 class="card-title">
                         {{ instrument.name }}
                     </h5>
 
+
                     <p class="card-text mb-2">
-                        <strong>Category:</strong>
+
+                        <strong>
+                            Category:
+                        </strong>
+
                         {{ instrument.category.name }}
+
                     </p>
 
-                    <p class="card-text">
-                        <strong>Price:</strong>
+
+                    <p class="card-text mb-3">
+
+                        <strong>
+                            Price:
+                        </strong>
+
                         €{{ instrument.dailyRentalPrice }}/day
+
                     </p>
 
-                </div>
+
+                    {# BUTTONS - ONLY FOR LOGGED-IN USERS #}
+                    {% if app.user %}
+
+                        <div class="mt-auto">
+
+                            {# SHOW DETAILS #}
+                            <a
+                            href="{{ path('app_instrument_show', {'id': instrument.id}) }}"
+                            class="btn btn-outline-primary w-100 mb-2"
+                            >
+                            Show Details
+                        </a>
+
+
+                        {# RENT BUTTON #}
+                        {% if instrument.isActive %}
+
+                            <a
+                            href="{{ path('app_rental_request_new', {'id': instrument.id}) }}"
+                            class="btn btn-primary w-100"
+                            >
+                            Rent This
+                        </a>
+
+                    {% else %}
+
+                        <button
+                        type="button"
+                        class="btn btn-secondary w-100"
+                        disabled
+                        >
+                        Not Available
+                    </button>
+
+                {% endif %}
 
             </div>
+
+        {% endif %}
+
+        </div>
+
+        </div>
 
         </div>
 

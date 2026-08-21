@@ -21,44 +21,88 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-            ])
-            ->add('lastName', TextType::class, [
-            ])
-            ->add('email')
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'label' => 'First name',
                 'constraints' => [
                     new NotBlank(
-                        message: 'Please enter a password',
+                        message: 'Please enter your first name.',
                     ),
+                ],
+            ])
+
+            ->add('lastName', TextType::class, [
+                'label' => 'Last name',
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Please enter your last name.',
+                    ),
+                ],
+            ])
+
+            ->add('email', null, [
+                'label' => 'Email',
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Please enter your email.',
+                    ),
+                    new Assert\Email(
+                        message: 'Please enter a valid email address.',
+                    ),
+                ],
+            ])
+
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'Password',
+
+                'mapped' => false,
+
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                ],
+
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Please enter a password.',
+                    ),
+
                     new Length(
                         min: 6,
-                        minMessage: 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+                        minMessage: 'Your password should be at least {{ limit }} characters.',
                         max: 4096,
                     ),
                 ],
             ])
+
             ->add('image', FileType::class, [
-                'label' => 'Upload image',
+                'label' => 'Profile image',
+
                 'mapped' => false,
+
                 'required' => false,
-                'attr' => ['class' => 'form-control mb-3'],
+
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+
                 'constraints' => [
                     new Assert\File(
                         maxSize: '2048k',
                         extensions: ['png', 'jpg', 'jpeg', 'webp'],
-                        extensionsMessage: 'Please upload a valid image (PNG, WEBP, JPG or JPEG) max 2 MB.',
+                        extensionsMessage: 'Please upload a valid image (PNG, WEBP, JPG or JPEG), maximum 2 MB.',
                     ),
                 ],
             ])
+
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'I agree to the terms and conditions.',
+
                 'mapped' => false,
-            ])
-        ;
+
+                'constraints' => [
+                    new IsTrue(
+                        message: 'You must agree to the terms and conditions.',
+                    ),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

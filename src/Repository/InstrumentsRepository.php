@@ -17,7 +17,7 @@ class InstrumentsRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find active instruments for the guest homepage.
+     * Find instruments for the homepage.
      *
      * @return Instruments[]
      */
@@ -28,11 +28,9 @@ class InstrumentsRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('i')
             ->leftJoin('i.category', 'c')
             ->addSelect('c')
-            ->andWhere('i.is_active = :active')
-            ->setParameter('active', true)
             ->orderBy('i.name', 'ASC');
 
-        // Search by instrument name or category name
+        // Search by instrument name or category
         if ($search) {
             $queryBuilder
                 ->andWhere(

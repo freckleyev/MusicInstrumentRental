@@ -88,10 +88,16 @@
     {% if app.user %}
 
         <a
-        href="{{ path('app_logout') }}"
+        href="{{ path('app_profile') }}"
         class="btn btn-outline-light"
         >
-        Logout
+        My Profile
+    </a>
+    <a
+    href="{{ path('app_logout') }}"
+    class="btn btn-outline-light"
+    >
+    Logout
     </a>
 
 {% else %}
