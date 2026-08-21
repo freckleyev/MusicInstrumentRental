@@ -82,23 +82,23 @@
 
         <li class="nav-item">
             <a
-            class="nav-link
-            {% if app.request.attributes.get('_route') starts with 'dashboard' %}
-                text-white
-            {% endif %}
-            "
-            href="{{ path('app_dashboard') }}"
-            >
-            Dashboard
-        </a>
-    </li>
+                class="nav-link
+                {% if app.request.pathInfo starts with '/dashboard' %}
+                    text-white
+                {% endif %}
+                "
+                href="{{ path('app_dashboard') }}"
+                >
+                Dashboard
+            </a>
+        </li>
 
 {% endif %}
 
 </ul>
 
 {# Authentication buttons #}
-<div class="d-flex gap-2">
+<div class="d-flex gap-4">
 
     {% if app.user %}
 
