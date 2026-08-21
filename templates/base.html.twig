@@ -3,11 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Music Instruments Rental{% endblock %}</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-
+        <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous"
+        >
     </head>
+
     <body>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
 
             <div class="container">
@@ -42,7 +48,11 @@
             {# Visible to everyone #}
             <li class="nav-item">
                 <a
-                class="nav-link"
+                class="nav-link
+                {% if app.request.attributes.get('_route') == 'app_public' %}
+                    text-white
+                {% endif %}
+                "
                 href="{{ path('app_public') }}"
                 >
                 Instruments
@@ -54,7 +64,11 @@
 
             <li class="nav-item">
                 <a
-                class="nav-link"
+                class="nav-link
+                {% if app.request.attributes.get('_route') == 'app_my_rentals' %}
+                    text-white
+                {% endif %}
+                "
                 href="{{ path('app_my_rentals') }}"
                 >
                 My Rentals
@@ -63,13 +77,16 @@
 
     {% endif %}
 
-
     {# Visible only to admins #}
     {% if is_granted('ROLE_ADMIN') %}
 
         <li class="nav-item">
             <a
-            class="nav-link"
+            class="nav-link
+            {% if app.request.attributes.get('_route') starts with 'dashboard' %}
+                text-white
+            {% endif %}
+            "
             href="{{ path('app_dashboard') }}"
             >
             Dashboard
@@ -80,19 +97,33 @@
 
 </ul>
 
-{# Authentication buttons#}
-{# Login / Register / Logout #}
-
+{# Authentication buttons #}
 <div class="d-flex gap-2">
 
     {% if app.user %}
 
         <a
         href="{{ path('app_profile') }}"
-        class="btn btn-outline-light"
+        title="My Profile"
+        class="d-flex align-items-center"
         >
-        My Profile
+        {% if app.user.image %}
+            <img
+            src="{{ asset('images/users/' ~ app.user.image) }}"
+            alt="Profile"
+            class="rounded-circle"
+            style="width: 40px; height: 40px; object-fit: cover;"
+            >
+        {% else %}
+            <img
+            src="{{ asset('images/users/image_placeholder.png') }}"
+            alt="Profile"
+            class="rounded-circle"
+            style="width: 40px; height: 40px; object-fit: cover;"
+            >
+        {% endif %}
     </a>
+
     <a
     href="{{ path('app_logout') }}"
     class="btn btn-outline-light"
@@ -131,7 +162,11 @@
     {% endblock %}
 </div>
 
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiq7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+crossorigin="anonymous"
+></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
