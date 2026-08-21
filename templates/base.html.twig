@@ -89,10 +89,26 @@
 
         <a
         href="{{ path('app_profile') }}"
-        class="btn btn-outline-light"
+        title="My Profile"
+        class="d-flex align-items-center"
         >
-        My Profile
+        {% if app.user and app.user.image %}
+            <img
+            src="{{ asset('images/users/' ~ app.user.image) }}"
+            alt="Profile"
+            class="rounded-circle"
+            style="width: 40px; height: 40px; object-fit: cover;"
+            >
+        {% else %}
+            <img
+            src="{{ asset('images/users/image_placeholder.png') }}"
+            alt="Profile"
+            class="rounded-circle"
+            style="width: 40px; height: 40px; object-fit: cover;"
+            >
+        {% endif %}
     </a>
+
     <a
     href="{{ path('app_logout') }}"
     class="btn btn-outline-light"
