@@ -2,10 +2,6 @@
 
 {% block title %}Dashboard{% endblock %}
 
-{% block nav %}
-    <a class="nav-link"href="{{ path('app_dashboard') }}">Dashboard</a>
-{% endblock %}
-
 {% block body %}
     {% block dashboard_stats %}
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-lg-4">
@@ -13,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p>TOTAL INSTRUMENTS:</p>
-                        <h5 class="card-title">40</h5>
+                        <h5 class="card-title">{{instrumentsCount}}</h5>
                     </div>
                 </div>
             </div>
@@ -21,7 +17,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p>AVAILABLE INSTRUMENTS:</p>
-                        <h5 class="card-title">24</h5>
+                        <h5 class="card-title">{{ availableInstrumentsCount }}</h5>
                     </div>
                 </div>
             </div>
@@ -29,7 +25,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p>TOTAL USERS:</p>
-                        <h5 class="card-title">21</h5>
+                        <h5 class="card-title">{{ userCount }}</h5>
                     </div>
                 </div>
             </div>
@@ -37,7 +33,39 @@
                 <div class="card">
                     <div class="card-body">
                         <p>TOTAL CATEGORIES:</p>
-                        <h5 class="card-title">5</h5>
+                        <h5 class="card-title">{{ categoriesCount }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>PENDING REQUESTS:</p>
+                        <h5 class="card-title">{{ pendingRequestsCount }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>REJECTED REQUESTS:</p>
+                        <h5 class="card-title">{{ rejectedRequestsCount }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>APPROVED REQUESTS:</p>
+                        <h5 class="card-title">{{ approvedRequestsCount }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class='col my-3'>
+                <div class="card">
+                    <div class="card-body">
+                        <p>COMPLETED REQUESTS:</p>
+                        <h5 class="card-title">{{ completedRequestsCount }}</h5>
                     </div>
                 </div>
             </div>

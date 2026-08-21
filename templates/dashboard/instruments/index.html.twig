@@ -13,34 +13,39 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
+                <th style="width: 10%;">Image</th>
                 <th>Name</th>
-                <th>Instrument_condition</th>
-                <th>Description</th>
-                <th>Daily_rental_price</th>
-                <th>Image</th>
-                <th>Is_active</th>
-                <th>actions</th>
+                <th>Category</th>
+                <th>Condition</th>
+                <th style="width: 20%;">Description</th>
+                <th>Daily price</th>
+                <th>Available</th>
+                <th>show | edit | del</th>
             </tr>
         </thead>
         <tbody>
         {% for instrument in instruments %}
             <tr>
                 <td>{{ instrument.id }}</td>
+                <td><img src="{{ asset('images/instruments/' ~ instrument.image) }}" class="img-fluid" alt="{{ asset('images/instruments/' ~ instrument.image) }}"></td>
                 <td>{{ instrument.name }}</td>
+                <td>{{ instrument.category.name }}</td>
                 <td>{{ instrument.instrumentCondition }}</td>
                 <td>{{ instrument.description }}</td>
-                <td>{{ instrument.dailyRentalPrice }}</td>
-                <td>{{ instrument.image }}</td>
+                <td>{{ instrument.dailyRentalPrice }}€</td>
                 <td>{{ instrument.isActive ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_instruments_show', {'id': instrument.id}) }}">show</a>
-                    <a href="{{ path('app_instruments_edit', {'id': instrument.id}) }}">edit</a>
+                    <div class="d-flex gap-1">
+                        <a href="{{ path('app_instruments_show', {'id': instrument.id}) }}" class="btn btn-secondary">☰</a>
+                        <a href="{{ path('app_instruments_edit', {'id': instrument.id}) }}" class="btn btn-warning">✎</a>
+                        {{ include('dashboard/instruments/_delete_form.html.twig', {'button_text': '✘'}) }}
+                    </div>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">no instruments found...</td>
             </tr>
         {% endfor %}
         </tbody>

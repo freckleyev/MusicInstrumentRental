@@ -5,25 +5,54 @@ namespace App\Entity;
 use App\Repository\InstrumentsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InstrumentsRepository::class)]
 class Instruments
 {
+    public function __construct()
+    {
+        $this->is_active = true;
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Please enter instrument name.')]
+    #[Assert\Length(
+        min: 3, 
+        max: 255, 
+        minMessage: 'Instrument name must be at least {{ limit }} characters long.', 
+        maxMessage: 'Instrument name cannot exceed {{ limit }} characters.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Please enter instrument condition.')]
+    #[Assert\Length(
+        min: 3, 
+        max: 255, 
+        minMessage: 'Instrument condition must be at least {{ limit }} characters long.', 
+        maxMessage: 'Instrument condition cannot exceed {{ limit }} characters.'
+    )]
     private ?string $instrument_condition = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Please enter instrument description.')]
+    #[Assert\Length(
+        min: 3, 
+        max: 2048, 
+        minMessage: 'Instrument description must be at least {{ limit }} characters long.', 
+        maxMessage: 'Instrument description cannot exceed {{ limit }} characters.'
+    )]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotBlank(message: 'Please enter daily rental price.')]
+    #[Assert\Positive(message: 'Daily rental price must be a positive number.')]
     private ?string $daily_rental_price = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -34,6 +63,7 @@ class Instruments
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: 'Please select a category.')]
     private ?Categories $category = null;
 
     public function getId(): ?int

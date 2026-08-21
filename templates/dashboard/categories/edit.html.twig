@@ -2,12 +2,15 @@
 
 {% block title %}Edit Categories{% endblock %}
 
+{% block dashboard_stats %}
+{% endblock %}
+
 {% block dashboard_body %}
-    <h1>Edit Categories</h1>
+    <h1>Edit Category #{{category.id}}</h1>
 
     {{ include('dashboard/categories/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_categories_index') }}">back to list</a>
-
+    <br>
     {{ include('dashboard/categories/_delete_form.html.twig') }}
+    <br>
+    <a href="{{ path('app_categories_index') }}" class="btn btn-secondary">Back</a>
 {% endblock %}
