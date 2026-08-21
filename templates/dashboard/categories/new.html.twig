@@ -2,10 +2,13 @@
 
 {% block title %}New Categories{% endblock %}
 
+{% block dashboard_stats %}
+{% endblock %}
+
 {% block dashboard_body %}
-    <h1>Create new Categories</h1>
+    <h1>Create new Category</h1>
 
-    {{ include('dashboard/categories/_form.html.twig') }}
+    {{ include('dashboard/categories/_form.html.twig', {'button_label': 'Create'}) }}
 
-    <a href="{{ path('app_categories_index') }}">back to list</a>
+    <a href="{{ path('app_categories_index') }}" class="btn btn-secondary my-3">Back</a>
 {% endblock %}

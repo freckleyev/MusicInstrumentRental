@@ -2,10 +2,13 @@
 
 {% block title %}New Instruments{% endblock %}
 
+{% block dashboard_stats %}
+{% endblock %}
+
 {% block dashboard_body %}
-    <h1>Create new Instruments</h1>
+    <h1>Add new Instrument</h1>
 
-    {{ include('dashboard/instruments/_form.html.twig') }}
+    {{ include('dashboard/instruments/_form.html.twig', {'button_label': 'Add'}) }}
 
-    <a href="{{ path('app_instruments_index') }}">back to list</a>
+    <a href="{{ path('app_instruments_index') }}" class="btn btn-secondary my-3">Back</a>
 {% endblock %}

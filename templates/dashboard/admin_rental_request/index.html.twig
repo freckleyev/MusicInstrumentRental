@@ -1,8 +1,81 @@
 {% extends 'dashboard/dashboard.html.twig' %}
 
-{% block title %}Hello AdminRentalRequestController!{% endblock %}
+{% block title %}AdminRentalRequest{% endblock %}
+
+{% block dashboard_stats %}{% endblock %}
 
 {% block dashboard_body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show mt-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
 
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Instrument</th>
+                <th>Start date</th>
+                <th>End Date</th>
+                <th style="width: 15%;">Purpose</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Status</th>
+                <th style="width: 15%;">Rejection reason</th>
+                <th style="width: 10%;">Reviewed by</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for request in rental_requests %}
+            <tr>
+                <td>{{ request.id }} </td>
+                <td>{{ request.instrument.name }}</td>
+                <td>{{ request.startDate ? request.startDate|date('d.m.Y') : '' }}</td>
+
+                {# IF NOT RETURNED ON TIME DATE IS RED #}
+                {% if request.status.value == 'approved' and request.endDate < date() %}
+                    <td class="text text-danger">
+                        {{ request.endDate ? request.endDate|date('d.m.Y') : '' }}
+                    </td>
+                {% else %}
+                    <td>
+                        {{ request.endDate ? request.endDate|date('d.m.Y') : '' }}
+                    </td>
+                {% endif %}
+
+                <td>{{ request.purpose}}</td>
+                <td>{{ request.user.firstName}} {{ request.user.lastName}}</td>
+                <td>{{ request.user.email}}</td>
+                <td>{{ request.createdAt ? request.createdAt|date('d.m.Y') : ''}}</td>
+                <td>{{ request.updatedAt ? request.updatedAt|date('d.m.Y') : ''}}</td>
+                <td>
+                    {# DIFFERENT COLOR FOR DIFFERENT STATUS #}
+                    <span class="{{ request.status.colorClass }}">
+                        {{ request.status.value }}
+                    </span>
+                </td>
+                <td>{{ request.rejectionReason}}</td>
+                <td>{{ request.reviewedBy ? request.reviewedBy.firstName : 'Unknown'}} {{ request.reviewedBy ? request.reviewedBy.lastName : '' }}</td>
+
+                {# ACTIONS #}
+                <td>
+                   <a href="{{ path('app_admin_rental_request_status_update', {id: request.id}) }}" class="btn btn-secondary">Manage</a>
+                </td>
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No users found...</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

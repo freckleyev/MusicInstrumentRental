@@ -40,4 +40,21 @@ class RentalRequestsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function sort(?string $sortBy, ?string $sortDirection): array
+    {
+        $qb = $this->createQueryBuilder('rr')
+            ->leftJoin('rr.user', 'u')->addSelect('u')
+            ->leftJoin('rr.instrument', 'i')->addSelect('i');
+
+        // if ($jobTypeId) {
+        //     $qb->andWhere('jt.id = :typeId')
+        //        ->setParameter('typeId', $jobTypeId);
+        // }
+
+        $sortBy = 'rr.' . $sortBy;
+        $qb->orderBy($sortBy, $sortDirection);
+
+        return $qb->getQuery()->getResult();
+    }
 }

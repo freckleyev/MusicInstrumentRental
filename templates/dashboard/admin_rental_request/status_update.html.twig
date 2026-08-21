@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text text-center">Rental Request #{{ rentalRequest.id }}</h2>
+    <p><strong>Instrument:</strong> {{ rentalRequest.instrument.name }}</p>
+    <p><strong>Status:</strong> 
+        <span class="{{ rentalRequest.status.colorClass }}">
+            {{ rentalRequest.status.value }}
+        </span>
+    </p>
+    <p><strong>User Email:</strong> {{ rentalRequest.user.email }}</p>
+    <p><strong>User Name:</strong> {{ rentalRequest.user.firstName }} {{ rentalRequest.user.lastName }}</p>
+    <p><strong>Start Date:</strong> {{ rentalRequest.startDate ? rentalRequest.startDate|date('d.m.Y') : '' }}</p>
+    <p><strong>End Date:</strong> {{ rentalRequest.endDate ? rentalRequest.endDate|date('d.m.Y') : '' }}</p>
+    <p><strong>Purpose:</strong> {{ rentalRequest.purpose }}</p>
+    <p><strong>Created:</strong> {{ rentalRequest.createdAt ? rentalRequest.createdAt|date('d.m.Y') : '' }}</p>
+
+
+    <hr>
+
+    <form method="POST" action="{{ path('app_admin_rental_request_status_update', { id: rentalRequest.id }) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('status_update_' ~ rentalRequest.id) }}">
+
+        {# PENDING STATUS ACTIONS #}
+        {% if rentalRequest.status.value == 'pending' %}
+            <button type="submit" name="action" value="approve" class="btn btn-success me-2">
+                Approve
+            </button>
+
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                Reject
+            </button>
+
+            <div class="modal fade" id="rejectModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Reject Request</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="rejection_reason" class="form-label">Reason for rejection:</label>
+                            <textarea name="rejection_reason" id="rejection_reason" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="action" value="reject" class="btn btn-danger">Confirm Rejection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {# APPROVED STATUS ACTIONS #}
+        {% elseif rentalRequest.status.value == 'approved' %}
+            <button type="submit" name="action" value="complete" class="btn btn-info text-white">
+                Mark as Completed / Returned
+            </button>
+
+        {# FINAL STATES #}
+        {% else %}
+            <p class="text-muted">No further actions available for this request.</p>
+        {% endif %}
+    </form>
+
+    <div class="d-flex gap-1 my-3">
+        <a href="{{ path('app_admin_rental_request') }}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}
