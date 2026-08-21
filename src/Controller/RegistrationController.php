@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -17,7 +19,8 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        FileUploader $fileUploader
     ): Response {
 
         $user = new User();
@@ -47,6 +50,21 @@ class RegistrationController extends AbstractController
 
             // New users are not blocked
             $user->setIsBlocked(false);
+
+            // Get the uploaded profile picture
+            /** @var UploadedFile|null $imageFile */
+            $imageFile = $form->get('image')->getData();
+
+            // Upload the profile picture if one was selected
+            if ($imageFile) {
+                $fileName = $fileUploader->upload(
+                    $imageFile,
+                    'users'
+                );
+
+                // Save the filename in the database
+                $user->setImage($fileName);
+            }
 
             // Save the user in the database
             $entityManager->persist($user);
