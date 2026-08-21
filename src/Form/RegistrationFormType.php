@@ -26,6 +26,13 @@ class RegistrationFormType extends AbstractType
                     new NotBlank(
                         message: 'Please enter your first name.',
                     ),
+
+                    new Length(
+                        min: 3,
+                        max: 255,
+                        minMessage: 'First name must be at least {{ limit }} characters long.',
+                        maxMessage: 'First name cannot exceed {{ limit }} characters.',
+                    ),
                 ],
             ])
 
@@ -34,6 +41,13 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(
                         message: 'Please enter your last name.',
+                    ),
+
+                    new Length(
+                        min: 3,
+                        max: 255,
+                        minMessage: 'Last name must be at least {{ limit }} characters long.',
+                        maxMessage: 'Last name cannot exceed {{ limit }} characters.',
                     ),
                 ],
             ])
@@ -44,6 +58,7 @@ class RegistrationFormType extends AbstractType
                     new NotBlank(
                         message: 'Please enter your email.',
                     ),
+
                     new Assert\Email(
                         message: 'Please enter a valid email address.',
                     ),
