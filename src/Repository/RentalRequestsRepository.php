@@ -47,11 +47,6 @@ class RentalRequestsRepository extends ServiceEntityRepository
             ->leftJoin('rr.user', 'u')->addSelect('u')
             ->leftJoin('rr.instrument', 'i')->addSelect('i');
 
-        // if ($jobTypeId) {
-        //     $qb->andWhere('jt.id = :typeId')
-        //        ->setParameter('typeId', $jobTypeId);
-        // }
-
         $sortBy = 'rr.' . $sortBy;
         $qb->orderBy($sortBy, $sortDirection);
 

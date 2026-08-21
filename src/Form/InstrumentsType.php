@@ -18,10 +18,12 @@ class InstrumentsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $attr = ['class' => 'form-control mb-3'];
+
         $builder
             ->add('name', TextType::class, [
                 'label' => "Name*",
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => $attr,
             ])
             ->add('category', EntityType::class, [
                 'label' => "Category*",
@@ -32,22 +34,22 @@ class InstrumentsType extends AbstractType
             ])
             ->add('instrument_condition', TextType::class, [
                 'label' => "Condition*",
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => $attr,
             ])
             ->add('description', TextareaType::class, [
                 'label' => "Description*",
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => $attr,
             ])
             ->add('daily_rental_price', MoneyType::class, [
                 'label' => "Daily Rental Price*",
                 'currency' => 'EUR',
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => $attr,
             ])
             ->add('image', FileType::class, [
                 'label' => 'Upload image',
                 'mapped' => false,
                 'required' => false,
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => $attr,
                 'constraints' => [
                     new Assert\File(
                         maxSize: '2048k',
