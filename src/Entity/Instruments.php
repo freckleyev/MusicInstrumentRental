@@ -43,8 +43,8 @@ class Instruments
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message: 'Please enter instrument description.')]
     #[Assert\Length(
-        min: 3, 
-        max: 2048, 
+        min: 3,
+        max: 2048,
         minMessage: 'Instrument description must be at least {{ limit }} characters long.', 
         maxMessage: 'Instrument description cannot exceed {{ limit }} characters.'
     )]

@@ -74,6 +74,10 @@ class MyRentalsController extends AbstractController
         // Change status to canceled
         $rentalRequest->setStatus(RentalRequestStatus::CANCELED);
 
+        $instrument = $rentalRequest->getInstrument();
+        $instrument->setIsActive(true);
+
+
         // Save the change
         $entityManager->flush();
 
