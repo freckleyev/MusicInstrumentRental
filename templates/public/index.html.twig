@@ -32,6 +32,7 @@
             <input
             type="text"
             name="search"
+            id="search"
             class="form-control"
             placeholder="Search instruments by name or category..."
             value="{{ search }}"
@@ -58,6 +59,7 @@
 
     <select
     name="category"
+    id="category"
     class="form-select"
     onchange="this.form.submit()"
     >
@@ -174,20 +176,20 @@
                             href="{{ path('app_rental_request_new', {'id': instrument.id}) }}"
                             class="btn btn-primary w-100"
                             >
-                            Rent This
+                            Request Rental
                         </a>
 
-                    {% else %}
+                        {% else %}
 
-                        <button
-                        type="button"
-                        class="btn btn-secondary w-100"
-                        disabled
-                        >
-                        Not Available
-                    </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary w-100"
+                                disabled
+                                >
+                                Not Available
+                            </button>
 
-                {% endif %}
+                        {% endif %}
 
             </div>
 

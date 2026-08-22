@@ -6,6 +6,7 @@ use App\Enum\RentalRequestStatus;
 use App\Repository\RentalRequestsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RentalRequestsRepository::class)]
 class RentalRequests
@@ -24,12 +25,22 @@ class RentalRequests
     private ?Instruments $instrument = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'Please select a start date.')]
+    #[Assert\GreaterThanOrEqual('today', message: 'Start date cannot be in the past.')]
     private ?\DateTime $startDate = null;
 
+    #[Assert\NotBlank(message: 'Please select a start date.')]
+    #[Assert\GreaterThanOrEqual(propertyPath: 'startDate', message: 'End date must be the same as or after the start date.')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $endDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Please provide a rental purpose.')]
+    #[Assert\Length(
+        min: 10,
+        max: 500,
+        minMessage: 'Purpose must be at least 10 characters long.'
+    )]
     private ?string $purpose = null;
 
     #[ORM\Column(enumType: RentalRequestStatus::class)]

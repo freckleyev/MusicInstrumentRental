@@ -23,18 +23,16 @@ class RentalRequestController extends AbstractController
         // Only logged-in users can make rental requests
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-// Check if the instrument is available
-if (!$instrument->isActive()) {
-    $this->addFlash(
-        'danger',
-        'This instrument is currently not available.'
-    );
+    // Check if the instrument is available
+    if (!$instrument->isActive()) {
+        $this->addFlash(
+            'danger',
+            'This instrument is currently not available.'
+        );
 
-    return $this->redirectToRoute('app_public');
-}
+        return $this->redirectToRoute('app_public');
+    }
 
-// Create a new rental request
-$rentalRequest = new RentalRequests();
         // Create a new rental request
         $rentalRequest = new RentalRequests();
 
@@ -57,6 +55,7 @@ $rentalRequest = new RentalRequests();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $instrument->setIsActive(false);
 
             $entityManager->persist($rentalRequest);
             $entityManager->flush();

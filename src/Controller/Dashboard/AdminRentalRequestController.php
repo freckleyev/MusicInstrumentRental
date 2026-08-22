@@ -38,6 +38,7 @@ final class AdminRentalRequestController extends AbstractController
             $action = $request->request->get('action');
             $now = new \DateTimeImmutable();
             $currentUser = $this->getUser();
+            $instrument = $rentalRequest->getInstrument();
 
             if ($action === 'approve' && $rentalRequest->getStatus() === RentalRequestStatus::PENDING) {
                 $rentalRequest->setStatus(RentalRequestStatus::APPROVED);
@@ -51,12 +52,14 @@ final class AdminRentalRequestController extends AbstractController
                 $rentalRequest->setRejectionReason($reason);
                 $rentalRequest->setReviewedBy($currentUser);
                 $rentalRequest->setUpdatedAt($now);
+                $instrument->setIsActive(true);
                 $this->addFlash('danger', 'Rental request has been rejected.');
 
             } elseif ($action === 'complete' && $rentalRequest->getStatus() === RentalRequestStatus::APPROVED) {
                 $rentalRequest->setStatus(RentalRequestStatus::COMPLETED);
                 $rentalRequest->setReviewedBy($currentUser);
                 $rentalRequest->setUpdatedAt($now);
+                $instrument->setIsActive(true);
                 $this->addFlash('info', 'Rental request marked as completed.');
             }
 
