@@ -30,7 +30,7 @@ class RentalRequests
     private ?\DateTime $startDate = null;
 
     #[Assert\NotBlank(message: 'Please select a start date.')]
-    #[Assert\GreaterThanOrEqual(propertyPath: 'startDate', message: 'End date must be the same as or after the start date.')]
+    #[Assert\GreaterThan(propertyPath: 'startDate', message: 'End date must after the start date. Minimum rental period is 1 day.')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $endDate = null;
 
@@ -182,5 +182,25 @@ class RentalRequests
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    
+    // Calculates total days between start and end date.
+    public function getDurationInDays(): int
+    {
+        if (!$this->startDate || !$this->endDate) {
+            return 0;
+        }
+        return (int) $this->startDate->diff($this->endDate)->days;
+    }
+
+    // Calculates the total rental price.
+    public function getTotalPrice(): float
+    {
+        if (!$this->instrument) {
+            return 0.0;
+        }
+
+        return $this->getDurationInDays() * $this->instrument->getDailyRentalPrice();
     }
 }

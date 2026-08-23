@@ -22,37 +22,27 @@
     <div class="row g-5">
 
         {# IMAGE #}
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 d-flex align-items-start justify-content-center">
+            <div class="shadow overflow-hidden rounded bg-light d-inline-block lh-1 card-hover">
+                {% if instrument.image %}
 
-            <div
-            class="bg-light rounded"
-            style="height: 400px; overflow: hidden;"
-            >
+                    <img
+                    src="{{ asset('images/instruments/' ~ instrument.image) }}"
+                    alt="{{ instrument.name }}"
+                    class="d-block"
+                    style="max-height: 400px; width: auto; max-width: 100%; object-fit: contain;"
+                    >
 
-            {% if instrument.image %}
+                {% else %}
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <span class="text-muted">
+                            No image available
+                        </span>
+                    </div>
 
-                <img
-                src="{{ asset('images/instruments/' ~ instrument.image) }}"
-                alt="{{ instrument.name }}"
-                class="w-100 h-100"
-                style="object-fit: contain;"
-                >
-
-            {% else %}
-
-                <div class="d-flex align-items-center justify-content-center h-100">
-
-                    <span class="text-muted">
-                        No image available
-                    </span>
-
-                </div>
-
-            {% endif %}
-
+                {% endif %}
+            </div>
         </div>
-
-    </div>
 
     {# DETAILS #}
     <div class="col-12 col-md-6">
@@ -90,7 +80,7 @@
 
         {% if instrument.isActive %}
 
-            <div class="alert alert-success">
+            <div class="text text-success mb-3">
                 This instrument is currently available.
             </div>
 
@@ -98,12 +88,12 @@
             href="{{ path('app_rental_request_new', {'id': instrument.id}) }}"
             class="btn btn-primary btn-lg"
             >
-            Rent This
+            Request Rental
         </a>
 
     {% else %}
 
-        <div class="alert alert-secondary">
+        <div class="text text-secondary mb-3">
             This instrument is currently unavailable.
         </div>
 

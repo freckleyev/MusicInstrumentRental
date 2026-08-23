@@ -4,18 +4,20 @@
 <div class="container mt-4">
     <h2 class="text text-center">Rental Request #{{ rentalRequest.id }}</h2>
     <p><strong>Instrument:</strong> {{ rentalRequest.instrument.name }}</p>
-    <p><strong>Status:</strong> 
+    <p><strong>User Email:</strong> {{ rentalRequest.user.email }}</p>
+    <p><strong>User Name:</strong> {{ rentalRequest.user.firstName }} {{ rentalRequest.user.lastName }}</p>
+    <p><strong>Rental Period:</strong> {{ rentalRequest.startDate ? rentalRequest.startDate|date('d.m.Y') : '' }} - {{ rentalRequest.endDate ? rentalRequest.endDate|date('d.m.Y') : '' }}</p>
+    <p><strong>Total Price: </strong> €{{ rentalRequest.totalPrice|number_format(2) }} for {{ rentalRequest.durationInDays }} day(s)</p>
+    <p><strong>Purpose:</strong> {{ rentalRequest.purpose }}</p>
+    <p><strong>Created:</strong> {{ rentalRequest.createdAt ? rentalRequest.createdAt|date('d.m.Y') : '' }}</p>
+    <p><strong>Status:</strong>
         <span class="{{ rentalRequest.status.colorClass }}">
             {{ rentalRequest.status.value }}
         </span>
     </p>
-    <p><strong>User Email:</strong> {{ rentalRequest.user.email }}</p>
-    <p><strong>User Name:</strong> {{ rentalRequest.user.firstName }} {{ rentalRequest.user.lastName }}</p>
-    <p><strong>Start Date:</strong> {{ rentalRequest.startDate ? rentalRequest.startDate|date('d.m.Y') : '' }}</p>
-    <p><strong>End Date:</strong> {{ rentalRequest.endDate ? rentalRequest.endDate|date('d.m.Y') : '' }}</p>
-    <p><strong>Purpose:</strong> {{ rentalRequest.purpose }}</p>
-    <p><strong>Created:</strong> {{ rentalRequest.createdAt ? rentalRequest.createdAt|date('d.m.Y') : '' }}</p>
-
+    {% if rentalRequest.rejectionReason %}
+        <p><strong>Rejection Reason:</strong> {{ rentalRequest.rejectionReason }}</p>
+    {% endif %}
 
     <hr>
 

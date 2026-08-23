@@ -65,9 +65,12 @@ class ProfileType extends AbstractType
             ])
 
             ->add('removeImage', CheckboxType::class, [
-                'label' => 'Remove current profile picture',
+                'label' => 'Remove current profile picture ',
                 'mapped' => false,
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'd-flex align-items-center gap-2 mb-3', // Controls spacing between input and label
+                ],
             ]);
     }
 
