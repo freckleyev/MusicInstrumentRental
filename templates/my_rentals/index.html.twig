@@ -6,6 +6,9 @@
 
 {% block body %}
 
+
+    
+
     <div class="container">
         <div class="text-center mb-4">
             <h1>
@@ -27,19 +30,37 @@
         {% else %}
             <div class="row" data-masonry='{"percentPosition": true}'>
                 {% for rental in rentalRequests %}
+            
+                    {# DEPENDING ON STATUS: #}
+                    {% set styleColor = '' %}
+
+                    {% if rental.status.value == 'pending' %}
+                        {% set styleColor = 'warning' %}
+                    {% elseif rental.status.value == 'approved' %}
+                        {% set styleColor = 'success' %}
+                    {% elseif rental.status.value == 'rejected' %}
+                        {% set styleColor = 'danger' %}
+                    {% elseif rental.status.value == 'completed' %}
+                        {% set styleColor = 'info' %}
+                    {% elseif rental.status.value == 'canceled' %}
+                        {% set styleColor = 'secondary' %}
+                    {% endif %}
+
+                    {# CARDS #}
                     <div class="col-12 col-md-6 col-lg-4 mb-4">
-                        <div class="card shadow-sm">
+                        <div class="card shadow border border-{{ styleColor }} card-hover">
                             <div class="card-body">
                                 <h4 class="card-title text-center mb-1">
                                     {{ rental.instrument.name }}
                                 </h4>
-                                <hr class="my-2">
+                                <hr class="my-2 text-{{ styleColor }}">
                                 <p class="card-text mb-1"><strong>Rental period: </strong>{{ rental.startDate|date('d.m.Y') }} - {{ rental.endDate|date('d.m.Y') }}</p>
+                                <p class="card-text mb-1"><strong>Total Price: </strong> €{{ rental.totalPrice|number_format(2) }} for {{ rental.durationInDays }} day(s)</p>
                                 <p class="card-text mb-1"><strong>Purpose: </strong>{{ rental.purpose }}</p>
-                                <hr class="my-2">
+                                <hr class="my-2 text-{{ styleColor }}">
                                 <p class="card-text mb-1"><strong>Request created: </strong>{{ rental.createdAt ? rental.createdAt|date('d.m.Y') : '' }}</p>
                                 <p class="card-text mb-1"><strong>Request updated: </strong>{{ rental.updatedAt ? rental.updatedAt|date('d.m.Y') : '' }}</p>
-                                <hr class="my-2">
+                                <hr class="my-2 text-{{ styleColor }}">
                                 
                                 <strong>Status:</strong>
                                 {% if rental.status.value == 'pending' %}

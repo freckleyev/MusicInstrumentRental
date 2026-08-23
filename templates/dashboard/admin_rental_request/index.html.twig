@@ -17,18 +17,17 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Instrument</th>
+                <th style="width: 1%">ID</th>
+                <th style="width: 12%">Instrument</th>
                 <th>Start date</th>
                 <th>End Date</th>
-                <th style="width: 15%;">Purpose</th>
+                <th>Total Price</th>
                 <th>User</th>
                 <th>Email</th>
                 <th>Created</th>
                 <th>Updated</th>
+                <th style="width: 10%">Reviewed by</th>
                 <th>Status</th>
-                <th style="width: 15%;">Rejection reason</th>
-                <th style="width: 10%;">Reviewed by</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -49,20 +48,25 @@
                         {{ request.endDate ? request.endDate|date('d.m.Y') : '' }}
                     </td>
                 {% endif %}
-
-                <td>{{ request.purpose}}</td>
+                <td>€{{ request.totalPrice|number_format(2) }}</td>
                 <td>{{ request.user.firstName}} {{ request.user.lastName}}</td>
-                <td>{{ request.user.email}}</td>
+
+                {# BLOCKED USER EMAIL IS RED #}
+                {% if request.user.isBlocked %}
+                    <td class="text text-danger">{{ request.user.email}}</td>
+                {% else %}
+                    <td>{{ request.user.email}}</td>
+                {% endif %}
+                
                 <td>{{ request.createdAt ? request.createdAt|date('d.m.Y') : ''}}</td>
                 <td>{{ request.updatedAt ? request.updatedAt|date('d.m.Y') : ''}}</td>
+                <td>{{ request.reviewedBy ? request.reviewedBy.firstName : ''}} {{ request.reviewedBy ? request.reviewedBy.lastName : '' }}</td>
                 <td>
                     {# DIFFERENT COLOR FOR DIFFERENT STATUS #}
                     <span class="{{ request.status.colorClass }}">
                         {{ request.status.value }}
                     </span>
                 </td>
-                <td>{{ request.rejectionReason}}</td>
-                <td>{{ request.reviewedBy ? request.reviewedBy.firstName : 'Unknown'}} {{ request.reviewedBy ? request.reviewedBy.lastName : '' }}</td>
 
                 {# ACTIONS #}
                 <td>
