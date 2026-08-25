@@ -17,32 +17,37 @@ html, body {
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.18) !important;
 }
 
-@media (max-width: 991.98px) {
-    /* Fullscreen overlay positioning */
-    .navbar-collapse.navbar-fullscreen {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        width: 100vw !important;
-        height: 100vh !important;
-        background-color: #212529 !important; /* Matches Bootstrap dark bg */
-        z-index: 1050;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem 1.5rem;
-        transition: all 0.3s ease-in-out;
+@media (max-width: 575.98px) {
+    /* 1. Force container & row to full width */
+    .container-fluid {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    /* Keep the close/hamburger button accessible above the menu */
-    .navbar-toggler {
-        position: relative;
-        z-index: 1060;
+    /* 2. Fix row overflow margins */
+    .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
     }
 
-    /* Prevent scrolling background page while menu is open */
-    body:has(.navbar-collapse.show) {
-        overflow: hidden !important;
+    /* 3. Override Masonry dynamic column positioning on mobile */
+    .row[data-masonry] > [class*="col-"] {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        left: auto !important;
+        top: auto !important;
+    }
+
+    .card {
+        width: 100% !important;
     }
 }
