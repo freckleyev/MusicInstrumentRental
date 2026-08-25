@@ -1,3 +1,13 @@
+/* styles.css */
+
+/* Remove default browser margins & horizontal overflow */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden;
+}
+
 .card-hover {
     transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out !important;
 }
@@ -5,4 +15,34 @@
 .card-hover:hover {
     transform: translateY(-8px) !important;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.18) !important;
+}
+
+@media (max-width: 991.98px) {
+    /* Fullscreen overlay positioning */
+    .navbar-collapse.navbar-fullscreen {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        background-color: #212529 !important; /* Matches Bootstrap dark bg */
+        z-index: 1050;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 1.5rem;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Keep the close/hamburger button accessible above the menu */
+    .navbar-toggler {
+        position: relative;
+        z-index: 1060;
+    }
+
+    /* Prevent scrolling background page while menu is open */
+    body:has(.navbar-collapse.show) {
+        overflow: hidden !important;
+    }
 }
