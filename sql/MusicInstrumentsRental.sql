@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Aug 18, 2026 at 12:29 PM
+-- Generation Time: Aug 24, 2026 at 10:15 AM
 -- Server version: 8.0.44
 -- PHP Version: 8.3.30
 
@@ -64,7 +64,9 @@ CREATE TABLE `doctrine_migration_versions` (
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 ('DoctrineMigrations\\Version20260818114214', '2026-08-18 11:42:21', 28),
 ('DoctrineMigrations\\Version20260818114917', '2026-08-18 11:49:22', 10),
-('DoctrineMigrations\\Version20260818120733', '2026-08-18 12:07:40', 53);
+('DoctrineMigrations\\Version20260818120733', '2026-08-18 12:07:40', 53),
+('DoctrineMigrations\\Version20260818130539', '2026-08-18 13:05:52', 37),
+('DoctrineMigrations\\Version20260820102353', '2026-08-20 10:23:57', 54);
 
 -- --------------------------------------------------------
 
@@ -88,16 +90,16 @@ CREATE TABLE `instruments` (
 --
 
 INSERT INTO `instruments` (`id`, `name`, `instrument_condition`, `description`, `daily_rental_price`, `image`, `is_active`, `category_id`) VALUES
-(1, 'Acoustic Guitar', 'Excellent', 'Dreadnought acoustic guitar with warm resonance.', 15.00, 'instrument_default.jpg', 0, 1),
-(2, 'Violin 4/4', 'Good', 'Full-size student violin with bow and hard case.', 12.50, 'instrument_default.jpg', 0, 1),
-(3, 'Alto Saxophone', 'Good', 'E-flat alto saxophone suitable for beginners and intermediate players.', 22.00, 'instrument_default.jpg', 0, 2),
-(4, 'Bb Trumpet', 'Excellent', 'Standard B-flat brass trumpet with carrying case.', 18.00, 'instrument_default.jpg', 0, 2),
-(5, '5-Piece Drum Kit', 'Fair', 'Complete acoustic drum set including cymbals and hardware.', 35.00, 'instrument_default.jpg', 0, 3),
-(6, 'Cajon', 'Excellent', 'Peruvian-style wooden percussion box with internal snares.', 10.00, 'instrument_default.jpg', 0, 3),
-(7, '88-Key Digital Piano', 'Excellent', 'Weighted action digital piano with sustain pedal.', 30.00, 'instrument_default.jpg', 0, 4),
-(8, 'Upright Piano', 'Good', 'Acoustic upright piano with classic mahogany finish.', 50.00, 'instrument_default.jpg', 0, 4),
-(9, 'Analog Synthesizer', 'Excellent', '37-key monophonic analog synth with patch points.', 25.00, 'instrument_default.jpg', 0, 5),
-(10, 'DJ Controller', 'Good', '2-channel USB DJ controller with integrated audio interface.', 20.00, 'instrument_default.jpg', 0, 5);
+(1, 'Acoustic Guitar', 'Excellent', 'Dreadnought acoustic guitar with warm resonance.', 15.00, 'martin-inception-at-2000x1500-6a8ab632737d5.jpg', 0, 1),
+(2, 'Violin 4/4', 'Good', 'Full-size student violin with bow and hard case.', 12.50, 'trac-vu-8eE2g1kdVgo-unsplash-6a8ab70c7eb9c.jpg', 1, 1),
+(3, 'Alto Saxophone', 'Good', 'E-flat alto saxophone suitable for beginners and intermediate players.', 22.00, 'AltoSax-1200x1200-6a8ab71411fba.webp', 0, 2),
+(4, 'Bb Trumpet', 'Excellent', 'Standard B-flat brass trumpet with carrying case.', 18.00, 'chris-bair-A10y2Eq7OHY-unsplash-6a8ab71dd6dfb.jpg', 1, 2),
+(5, '5-Piece Drum Kit', 'Fair', 'Complete acoustic drum set including cymbals and hardware.', 35.00, 'pearl-drums-UpCl-qvlIvg-unsplash-6a8ab746ba570.jpg', 0, 3),
+(6, 'Cajon', 'Excellent', 'Peruvian-style wooden percussion box with internal snares.', 10.00, 'O1CN011mFfZh20CPQp1aE2z-2218095396813-0-cib-720x-6a8ab7ac17177.webp', 1, 3),
+(7, '88-Key Digital Piano', 'Excellent', 'Weighted action digital piano with sustain pedal.', 30.00, 'jacob-hodgson-JuBhZ6v9trg-unsplash-6a8ab7f5c170e.jpg', 0, 4),
+(8, 'Upright Piano', 'Good', 'Acoustic upright piano with classic mahogany finish.', 50.00, 'viktor-mogilat-O4b4r6umtcU-unsplash-6a8ab82fb3062.jpg', 1, 4),
+(9, 'Analog Synthesizer', 'Excellent', '37-key monophonic analog synth with patch points.', 25.00, 'federico-telesca-V-W-yXsJ04U-unsplash-6a8ab872b6277.jpg', 0, 5),
+(10, 'DJ Controller', 'Good', '2-channel USB DJ controller with integrated audio interface.', 20.00, 'yomex-owo-g763DLmVJO8-unsplash-6a8ab888703e2.jpg', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -135,6 +137,24 @@ CREATE TABLE `rental_requests` (
   `instrument_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `rental_requests`
+--
+
+INSERT INTO `rental_requests` (`id`, `start_date`, `end_date`, `purpose`, `status`, `reviewed_by`, `rejection_reason`, `created_at`, `updated_at`, `user_id`, `instrument_id`) VALUES
+(18, '2026-08-25', '2026-08-26', 'This is the purpose', 'canceled', NULL, NULL, '2026-08-22 20:52:42', NULL, 6, 5),
+(19, '2026-08-22', '2026-08-27', 'This is a very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long purpose.', 'pending', NULL, NULL, '2026-08-22 21:24:04', NULL, 6, 7),
+(20, '2026-08-26', '2026-08-30', 'None of your business', 'completed', 6, NULL, '2026-08-22 21:41:23', '2026-08-22 21:55:01', 6, 1),
+(21, '2026-08-22', '2026-08-28', 'I want to annoy my neighbors', 'rejected', 6, 'We don\'t trust you!', '2026-08-22 21:41:50', '2026-08-22 21:51:20', 6, 3),
+(22, '2026-08-25', '2026-08-28', 'Purpose is very important', 'approved', 6, NULL, '2026-08-22 21:47:02', '2026-08-22 21:49:30', 6, 9),
+(23, '2026-08-23', '2026-08-29', 'This is a very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long purpose.', 'canceled', NULL, NULL, '2026-08-22 21:47:27', NULL, 6, 4),
+(24, '2026-08-25', '2026-08-29', 'I don\'t want to tell.', 'completed', 6, NULL, '2026-08-22 21:57:31', '2026-08-22 21:57:51', 6, 6),
+(25, '2026-08-23', '2026-08-23', '123123123123123', 'canceled', NULL, NULL, '2026-08-23 09:45:02', NULL, 6, 5),
+(26, '2026-08-23', '2026-08-24', '456456456456', 'canceled', NULL, NULL, '2026-08-23 09:45:36', NULL, 6, 1),
+(27, '2026-08-23', '2026-08-24', 'sdfsdgfsdg', 'pending', NULL, NULL, '2026-08-23 09:48:11', NULL, 6, 5),
+(28, '2026-08-24', '2026-08-27', 'Hulk smash guitar!', 'pending', NULL, NULL, '2026-08-23 13:06:20', NULL, 8, 1),
+(29, '2026-08-24', '2026-08-27', 'sdvsdgfhnbcjhvjhv', 'pending', NULL, NULL, '2026-08-24 08:53:20', NULL, 9, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -148,10 +168,18 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `role` varchar(10) NOT NULL,
   `is_blocked` tinyint NOT NULL,
   `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `first_name`, `last_name`, `is_blocked`, `image`) VALUES
+(6, 'spiderman@mail.com', '[\"ROLE_ADMIN\"]', '$2y$13$/IMnCtD5Mv8w6gYhganWXOi954NSSgzovBqS79R3b0HJp2/rqSEIK', 'Peter', 'Parker', 0, '1c8911952bc49e79ab89ba8ba3732651-6a88b9b539cd8.jpg'),
+(8, 'hulk@mail.com', '[\"ROLE_USER\"]', '$2y$13$Gk5QoAuY3wuonMkMv8HhUed83RuNkFKV.5GzkOQXa5rANj3s60FLG', 'Bruce', 'Benner', 1, '97456-6a8af02646ac5.jpg'),
+(9, 'ironman@mail.com', '[\"ROLE_USER\"]', '$2y$13$H5lYE3XOxjDFJiEYnkByP.X9T3DxjfN988P1qxp3Nx6aTYLmXCNzq', 'Tony', 'Stark', 0, 'images-6a8af07c91cc7.jpg');
 
 --
 -- Indexes for dumped tables
@@ -190,7 +218,8 @@ ALTER TABLE `messenger_messages`
 ALTER TABLE `rental_requests`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_4BE3CF62A76ED395` (`user_id`),
-  ADD KEY `IDX_4BE3CF62CF11D9C` (`instrument_id`);
+  ADD KEY `IDX_4BE3CF62CF11D9C` (`instrument_id`),
+  ADD KEY `IDX_4BE3CF6285D7FB47` (`reviewed_by`);
 
 --
 -- Indexes for table `user`
@@ -207,13 +236,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `instruments`
 --
 ALTER TABLE `instruments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `messenger_messages`
@@ -225,13 +254,13 @@ ALTER TABLE `messenger_messages`
 -- AUTO_INCREMENT for table `rental_requests`
 --
 ALTER TABLE `rental_requests`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -247,6 +276,7 @@ ALTER TABLE `instruments`
 -- Constraints for table `rental_requests`
 --
 ALTER TABLE `rental_requests`
+  ADD CONSTRAINT `FK_4BE3CF6285D7FB47` FOREIGN KEY (`reviewed_by`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `FK_4BE3CF62A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `FK_4BE3CF62CF11D9C` FOREIGN KEY (`instrument_id`) REFERENCES `instruments` (`id`);
 COMMIT;
