@@ -44,7 +44,8 @@
 
                         </div>
 
-                        {{ form_start(form) }}
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        {{ form_errors(form) }}
 
                         {# FIRST NAME #}
                         {{ form_row(form.firstName, {
