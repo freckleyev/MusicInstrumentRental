@@ -20,9 +20,9 @@
                             Create an account
                         </h1>
 
-                        {{ form_errors(registrationForm) }}
 
-                        {{ form_start(registrationForm) }}
+                        {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+                        {{ form_errors(registrationForm) }}
 
                         <div class="mb-4">
                             {{ form_label(registrationForm.firstName) }}
