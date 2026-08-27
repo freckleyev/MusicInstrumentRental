@@ -80,6 +80,7 @@ class UserController extends AbstractController
                     // Save the filename in the database
                     $user->setImage($fileName);
                 }
+                
             }
 
             // Save all profile changes

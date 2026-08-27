@@ -64,6 +64,8 @@ class RegistrationController extends AbstractController
 
                 // Save the filename in the database
                 $user->setImage($fileName);
+            } else {
+                $user->setImage('image_placeholder.png');
             }
 
             // Save the user in the database
